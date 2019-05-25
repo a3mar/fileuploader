@@ -1,0 +1,124 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #ffffff;
+}
+
+.container {
+    max-width: 960px;
+    width: 90%;
+    margin: auto;
+    border: 1px solid lightblue;
+    padding: 10px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.g-form {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+input,
+.select-role,
+.textarea-comment,
+.label-upload {
+    border: 1px solid lavender;
+    background-color: transparent;
+    padding: 15px;
+    outline: none;
+    border-radius: 5px;
+    font-size: 16px;
+    color: rgb(29, 28, 28);
+}
+
+.input-name {
+    width: 48%;
+    margin-bottom: 20px;
+}
+
+.select-role {
+    width: 20%;
+    align-self: center;
+}
+
+.textarea-comment {
+    width: 70%;
+}
+
+hr {
+    width: 100%;
+    margin: 20px 0;
+}
+
+.upload-wrapper {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.label-upload {
+    width: 22%;
+    align-self: center;
+    margin: 10px 20px 10px 0;
+    position: relative;
+}
+
+.span-overflow {
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+
+.label-upload--ok::after {
+    content: '\2714';
+    position: absolute;
+    top: -15px;
+    left: 0;
+    font-size: 25px;
+    color: rgb(16, 138, 16);
+}
+
+.label-upload--err::after {
+    content: '\2716';
+    position: absolute;
+    top: -15px;
+    left: 0;
+    font-size: 25px;
+    color: rgb(216, 19, 19);
+}
+
+.input-upload {
+    border: none;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    display: none;
+}
+
+.input-submit {
+    background-color: rgb(185, 185, 241);
+    text-align: center;
+    width: 30%;
+    margin: 20px 0;
+    align-self: center;
+}
+
+@media(max-width: 1024px) {
+    .input-name {
+     width: 100%;
+    }
+
+    .label-upload {
+        width: 47%;
+    }
+
+}

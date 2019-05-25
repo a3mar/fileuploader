@@ -1,0 +1,17 @@
+<html>
+<body>
+<p><%= name %> uploaded new files:</p>
+<ul>
+<% file_list.each do |file| %>
+  <li>
+    <a href="<%= file %>">
+      <%= file.split('/').last %>
+    </a>
+  </li>
+<% end %>
+<% if comment %>
+<p>With comment:</p>
+<p><%= comment %></p>
+<% end %>
+</ul>
+</body>
