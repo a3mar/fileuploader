@@ -1,0 +1,16 @@
+[Unit]
+Description=Puma HTTP Forking Server
+After=network.target
+
+[Service]
+Type=forking
+WorkingDirectory=/opt/fileuploader
+
+ExecStart=/bin/scl enable rh-ruby24 -- /opt/rh/rh-ruby24/root/usr/local/bin/bundle exec puma -C /opt/fileuploader/config/puma.rb --daemon
+ExecStop=/bin/scl enable rh-ruby24 -- /opt/rh/rh-ruby24/root/usr/local/bin/bundle exec pumactl -S /opt/fileuploader/tmp/state stop
+
+PIDFile=/opt/fileuploader/tmp/pid
+Restart=no
+
+[Install]
+WantedBy=multi-user.target

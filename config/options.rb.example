@@ -1,0 +1,17 @@
+Options = {
+  :mail => {
+    :address => "smtp.gmail.com",
+    :port => 587,
+    :user_name => "login@gmail.com",
+    :password => "password",
+    :authentication => "plain",
+    :enable_starttls_auto => true,
+  },
+  :common => {
+    :upload_dir => "/home/azmar/Projects/upload",
+    :mail_from => "login@gmail.com",
+    :mail_to => "destination@yandex.ru",
+    :secure_link_secret => "asdf",
+    :secure_link_location => "http://localhost/sig",
+  },
+}
