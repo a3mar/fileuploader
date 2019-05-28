@@ -1,6 +1,6 @@
 source 'https://rubygems.org' do
-require "sinatra"
-require "mail"
-require "russian"
-require "puma"
+gem "sinatra"
+gem "mail"
+gem "russian"
+gem "puma"
 end
