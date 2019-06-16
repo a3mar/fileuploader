@@ -24,12 +24,14 @@ hr {
 }
 
 h1 {
+  margin-top: 0;
   color: #048998
 }
 
 .g-form {
   background-color: white;
   width: 100%;
+  padding: 1em 0;
 }
 
 .formrow {
