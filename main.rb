@@ -63,15 +63,15 @@ class FileUploader < Sinatra::Base
       },
     )
 
-    # mail = Mail.deliver do
-    #   from Options[:common][:mail_from]
-    #   to Options[:common][:mail_to]
-    #   subject "New files from #{role} #{first_name} #{last_name}"
-    #   html_part do
-    #     content_type "text/html; charset=UTF-8"
-    #     body mailbody
-    #   end
-    # end
+    mail = Mail.deliver do
+      from Options[:common][:mail_from]
+      to Options[:common][:mail_to]
+      subject "New files from #{role} #{first_name} #{last_name}"
+      html_part do
+        content_type "text/html; charset=UTF-8"
+        body mailbody
+      end
+    end
 
     mailbody
   end
