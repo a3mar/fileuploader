@@ -51,6 +51,7 @@ class FileUploader < Sinatra::Base
       fullpath = "#{file_path}#{filename}"
 
       FileUtils.cp_r tmpfile.path, fullpath
+      FileUtils.chmod 0644, fullpath
       file_list << generate_secure_link(fullpath)
     end
 
