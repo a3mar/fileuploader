@@ -37,9 +37,19 @@ export default class App extends React.Component {
   }
 
   finish = (request) => {
+    let result = JSON.parse(request.response)
+    result.resetFn = this.reset
+
     this.setState({
       "finished": true,
-      "result": JSON.parse(request.response)
+      "result": result
+    })
+  }
+
+  reset = () => {
+    this.setState({
+      "finished": false,
+      "result": {}
     })
   }
 

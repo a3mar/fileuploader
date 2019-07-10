@@ -25,12 +25,12 @@ export default class ResultScreen extends React.Component {
                     <h2>Файлы:</h2>
                     {this.props.files.map((file) => {
                         return (<p>
-                            <span className="bold">{file.name}</span> : {file.size} успешно загружено
+                            <span className="bold">{file.name}</span> : {file.size}MB успешно загружено
                             </p>)
                     })}
                 </div> <hr /> <div className="formrow">
                     <h2>Система сообщила администратору о загруженных Вами данных.</h2>
-                    <a>Вернуться к загрузке данных</a>
+                    <div onClick={this.props.resetFn}>Вернуться к загрузке данных</div>
                 </div>
             </div >
         )
