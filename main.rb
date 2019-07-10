@@ -3,23 +3,13 @@ require "fileutils"
 require "mail"
 require "russian"
 require "digest"
+require "humanize-bytes"
 
 require "./config/options.rb"
 
 class FileUploader < Sinatra::Base
   Mail.defaults do
     delivery_method :smtp, Options[:mail]
-  end
-
-  before do
-    headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
-    headers["Access-Control-Allow-Origin"] = "http://localhost:3000"
-    headers["Access-Control-Allow-Headers"] = "accept, authorization, origin"
-  end
-
-  options "*" do
-    response.headers["Allow"] = "HEAD,GET,PUT,DELETE,OPTIONS,POST"
-    response.headers["Access-Control-Allow-Headers"] = "X-Requested-With, X-HTTP-Method-Override, Content-Type, Cache-Control, Accept"
   end
 
   def generate_secure_link(uri)
@@ -34,14 +24,14 @@ class FileUploader < Sinatra::Base
   end
 
   post "/upload" do
-    # require "pry"
-    # binding.pry
+    start_time = Time.now
     first_name = Russian.translit params["first_name"]
     last_name = Russian.translit params["last_name"]
     role = params["role"]
     comment = params["comment"]
     file_path = "upload/#{first_name}_#{last_name}/"
     file_list = Array.new
+    secure_links = Array.new
 
     FileUtils.mkdir_p file_path
 
@@ -49,18 +39,27 @@ class FileUploader < Sinatra::Base
       filename = params[file][:filename]
       tmpfile = params[file][:tempfile]
       fullpath = "#{file_path}#{filename}"
+      size_bytes = File.size tmpfile
+      size_mb = Humanize::Byte.new(size_bytes).to_m
 
       FileUtils.cp_r tmpfile.path, fullpath
       FileUtils.chmod 0644, fullpath
-      file_list << generate_secure_link(fullpath)
+      file_list << { name: filename, size: size_mb.value.round(1) }
+      secure_links << generate_secure_link(fullpath)
     end
+
+    resp_time = Time.now - start_time
+    # require "pry"
+    # binding.pry
+    full_size = file_list.reduce(0) { |memo, e| memo += e[:size] }
+    avg_speed = full_size / 8 / resp_time
 
     mailbody = erb(
       :mailtemplate,
       locals: {
         name: "#{role} #{first_name} #{last_name}",
         comment: comment,
-        file_list: file_list,
+        file_list: secure_links,
       },
     )
 
@@ -74,6 +73,16 @@ class FileUploader < Sinatra::Base
       end
     end
 
-    mailbody
+    content_type :json
+    {
+      first_name: first_name,
+      last_name: last_name,
+      role: role,
+      comment: comment,
+      files: file_list,
+      full_size: full_size.round(1),
+      avg_speed: avg_speed.round(1),
+      resp_time: resp_time.round(1),
+    }.to_json
   end
 end
