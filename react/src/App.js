@@ -8,7 +8,7 @@ export default class App extends React.Component {
     super()
     this.state = { 
       "finished": false, 
-      "results": {
+      "result": {
         "files": [
           {"name": "test1", "size": "234KB"}
         ]

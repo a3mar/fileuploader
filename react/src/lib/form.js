@@ -1,6 +1,7 @@
 import React from 'react'
 import FileInput from './fileinput'
 import '../App.css'
+import logo from '../AMO.png'
 
 export default class MyForm extends React.Component {
   constructor(props) {
@@ -42,8 +43,8 @@ export default class MyForm extends React.Component {
     return (
       <form id={divId} className="g-form" onSubmit={submitFn}>
         <div className="header formrow">
-          <h1>Obuhoff KG</h1>
-          <p>Cистема отправки данных (file uploader v.2)</p>
+          <a href='https://amo.md'><img class="logo" src={logo} alt="Logo" ></img></a>
+          <p>Защищенная система отправления файлов - amo.md</p>
           <p>
             Можно пересылать не более 10 файлов.
             Можно захватывать несколько файлов одновременно
@@ -82,7 +83,7 @@ export default class MyForm extends React.Component {
 
         </div>
         <div className="rightaligned formrow">
-          <textarea className="textarea-comment" name="comment" placeholder="Comment"></textarea>
+          <textarea className="textarea-comment" name="comment" placeholder="Примечания к загруженным файлам (вид/зона/дата исследования и т.п.)"></textarea>
         </div>
         <hr />
 

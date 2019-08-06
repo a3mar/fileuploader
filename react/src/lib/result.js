@@ -1,5 +1,6 @@
 import React from 'react'
 import '../App.css'
+import logo from '../AMO.png'
 
 export default class ResultScreen extends React.Component {
     constructor(props) {
@@ -8,9 +9,9 @@ export default class ResultScreen extends React.Component {
 
     render() {
         return (
-            <div className="g-form">
+            <div className="container g-form">
                 <div className="header formrow">
-                    <h1>Obuhoff KG</h1>
+                <a href='https://amo.md'><img class="logo" src={logo} alt="Logo" ></img></a>
                     <h2>Пересылка завершена:</h2>
                     <p><span className="bold">Длительность пересылки: </span> { this.props.resp_time } seconds</p>
                     <p><span className="bold">Общий объем: </span> { this.props.full_size } MB</p>
@@ -28,10 +29,8 @@ export default class ResultScreen extends React.Component {
                             <span className="bold">{file.name}</span> : {file.size}MB успешно загружено
                             </p>)
                     })}
-                </div> <hr /> <div className="formrow">
-                    <h2>Система сообщила администратору о загруженных Вами данных.</h2>
-                    <div onClick={this.props.resetFn}>Вернуться к загрузке данных</div>
-                </div>
+                </div> 
+                    <div class="return" onClick={this.props.resetFn}>Вернуться к загрузке данных</div>
             </div >
         )
     }
