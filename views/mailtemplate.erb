@@ -1,12 +1,12 @@
 <html>
 <body>
-<p><%= name %> uploaded new files:</p>
+<p><%= name %> from <%= ip %> uploaded new files:</p>
 <ul>
 <% file_list.each do |file| %>
   <li>
-    <a href="<%= file %>">
-      <%= file.split('/').last %>
-    </a>
+    <a href="<%= file[:link] %>">
+      <%= file[:name] %>
+    </a> : <%= file[:size] %>
   </li>
 <% end %>
 <% if comment %>

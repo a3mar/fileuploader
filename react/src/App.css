@@ -110,6 +110,7 @@ h2 {
   font-size: 1em;
   font-weight: bold;
   color: white;
+  cursor: pointer;
 }
 
 .input-submit.error {
@@ -121,6 +122,7 @@ h2 {
   position: relative;
   background-color: transparent;
   border-radius: 0 0 0.5em 0.5em;
+  cursor: pointer;
 }
 
 .progressbar {
@@ -129,10 +131,20 @@ h2 {
   height: 100%;
   z-index: -1;
   border-radius: 0 0 0.5em 0.5em;
+  cursor: pointer;
 }
 
 .file-input {
   width: calc(75% - 3em);
+}
+
+.formrow.witherror {
+  background-color: palevioletred;
+}
+
+.err_desc {
+  text-align: center;
+  padding: 1em;
 }
 
 .sidebutton {
@@ -142,6 +154,9 @@ h2 {
   bottom: -0.19em;
   color: #0242ae;
   cursor: pointer;
+  display: inline-block;
+  width: 38px;
+  text-align: center;
 }
 
 .return {

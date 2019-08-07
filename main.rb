@@ -32,11 +32,15 @@ class FileUploader < Sinatra::Base
     file_path = "upload/#{first_name}_#{last_name}/"
     file_list = Array.new
     secure_links = Array.new
+    file_regex = /^(zip|pdf|jpg|jpeg|tiff|tif|png|doc|docx|rtf|txt|xml|xmlx|ods|odf|xls|xlsx)$/i
 
     FileUtils.mkdir_p file_path
 
     params.keys.select { |key| key =~ /^uploaded_file/ }.each do |file|
       filename = params[file][:filename]
+      fileext = filename.split(".").last
+      next unless fileext =~ file_regex
+
       tmpfile = params[file][:tempfile]
       fullpath = "#{file_path}#{filename}"
       size_bytes = File.size tmpfile
@@ -45,7 +49,11 @@ class FileUploader < Sinatra::Base
       FileUtils.cp_r tmpfile.path, fullpath
       FileUtils.chmod 0644, fullpath
       file_list << { name: filename, size: size_mb.value.round(1) }
-      secure_links << generate_secure_link(fullpath)
+      secure_links << {
+        name: filename,
+        link: generate_secure_link(fullpath),
+        size: size_mb,
+      }
     end
 
     resp_time = Time.now - start_time
@@ -60,6 +68,7 @@ class FileUploader < Sinatra::Base
         name: "#{role} #{first_name} #{last_name}",
         comment: comment,
         file_list: secure_links,
+        ip: request.ip,
       },
     )
 
@@ -83,6 +92,7 @@ class FileUploader < Sinatra::Base
       full_size: full_size.round(1),
       avg_speed: avg_speed.round(1),
       resp_time: resp_time.round(1),
+      ip: request.ip,
     }.to_json
   end
 end
