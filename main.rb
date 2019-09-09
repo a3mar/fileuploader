@@ -25,8 +25,8 @@ class FileUploader < Sinatra::Base
 
   post "/upload" do
     start_time = Time.now
-    first_name = Russian.translit params["first_name"]
-    last_name = Russian.translit params["last_name"]
+    first_name = Russian.translit(params["first_name"]).gsub(/ /, "_")
+    last_name = Russian.translit(params["last_name"]).gsub(/ /, "_")
     role = params["role"]
     comment = params["comment"]
     file_path = "upload/#{first_name}_#{last_name}/"
@@ -37,7 +37,7 @@ class FileUploader < Sinatra::Base
     FileUtils.mkdir_p file_path
 
     params.keys.select { |key| key =~ /^uploaded_file/ }.each do |file|
-      filename = params[file][:filename]
+      filename = Russian.translit(params[file][:filename]).gsub(/ /, "_")
       fileext = filename.split(".").last
       next unless fileext =~ file_regex
 
@@ -48,6 +48,8 @@ class FileUploader < Sinatra::Base
 
       FileUtils.cp_r tmpfile.path, fullpath
       FileUtils.chmod 0644, fullpath
+      FileUtils.rm_f tmpfile.path
+
       file_list << { name: filename, size: size_mb.value.round(1) }
       secure_links << {
         name: filename,
@@ -57,8 +59,6 @@ class FileUploader < Sinatra::Base
     end
 
     resp_time = Time.now - start_time
-    # require "pry"
-    # binding.pry
     full_size = file_list.reduce(0) { |memo, e| memo += e[:size] }
     avg_speed = full_size / 8 / resp_time
 
