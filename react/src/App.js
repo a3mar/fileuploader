@@ -9,6 +9,7 @@ export default class App extends React.Component {
     this.state = { 
       "inprogress": false,
       "finished": false, 
+      "ready": false,
       "result": {
         "files": [
           {"name": "test1", "size": "234KB"}
@@ -17,11 +18,25 @@ export default class App extends React.Component {
     }
   }
 
+  ready = (val) => {
+    console.log("inputs are ready: " + val)
+    this.setState({"ready": val})
+  }
+
   submitButton = (progress, hasError, cancelHandler) => {
     let initState = progress === -1
     let classes = hasError ? "input-submit error" : "input-submit"
     let width = initState ? 100 : progress
-    let message = initState ? "Отправить файлы" : `${progress}% загружено`
+    let message = ''
+
+    if (!this.state.ready) {
+      console.log('asdf')
+      message += "Выберите приклепляемые файлы"
+    } else if (initState) {
+      message += "Отправить файлы"
+    } else {
+      message += `${progress}% загружено`
+    }
 
     return (
       <div className="submit-wrapper">
@@ -30,7 +45,7 @@ export default class App extends React.Component {
           className={classes}
           type="submit"
           form="myForm"
-          disabled={this.state.inprogress}
+          disabled={this.state.inprogress || !this.state.ready}
           value={hasError ? "Ошибка загрузки" : message}
         />
 
@@ -59,6 +74,7 @@ export default class App extends React.Component {
     this.setState({
       "inprogress": false,
       "finished": false,
+      "ready": false,
       "result": {}
     })
   }
@@ -78,7 +94,7 @@ export default class App extends React.Component {
       </div>
     )
   }
-  formRenderer = (submit) => <MyForm disabled={this.state.inprogress} submitFn={submit} divId="myForm" />
+  formRenderer = (submit) => <MyForm ready={this.ready} disabled={this.state.inprogress} submitFn={submit} divId="myForm" />
   formGetter = () => { return (new FormData(document.getElementById('myForm'))) }
 
   result = (resp) => {

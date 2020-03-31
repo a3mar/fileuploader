@@ -6,15 +6,17 @@ import logo from '../AMO.png'
 export default class MyForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { "inputs": [], disabled: this.props.disabled }
+    this.state = { "inputs": [], disabled: this.props.disabled, "files": 0 }
   }
 
   componentWillMount = () => {
     this.addInput()
   }
 
-
   inp_disable = () => this.props.disabled
+  check_inputs = () => {
+      this.props.ready(true)
+    }
 
   addInput = () => {
     if (this.state.inputs.length >= 10 || this.props.disabled) {
@@ -24,12 +26,19 @@ export default class MyForm extends React.Component {
       .filter((v) => { return (v !== null) })
       .map((val, index) => {
         return (
-          val === null ? null : <FileInput disabled={this.inp_disable} key={index} index={index} type="rm" addInput={this.rmInput} />
+          val === null ? null : <FileInput 
+                                  chk={this.check_inputs} 
+                                  disabled={this.inp_disable} 
+                                  key={index} 
+                                  index={index} 
+                                  type="rm" 
+                                  addInput={this.rmInput} />
         )
       })
 
     current.push(
       <FileInput disabled={this.inp_disable}
+        chk={this.check_inputs} 
         key={current.length}
         index={current.length}
         type="add"
@@ -45,12 +54,23 @@ export default class MyForm extends React.Component {
       .filter((v) => { return (v !== null) })
       .map((val, index) => {
         return (
-          val === null ? null : <FileInput disabled={this.inp_disable} key={index} index={index} type="rm" addInput={this.rmInput} />
+          val === null ? null : <FileInput 
+                                  chk={this.check_inputs} 
+                                  disabled={this.inp_disable} 
+                                  key={index} 
+                                  index={index} 
+                                  type="rm" 
+                                  addInput={this.rmInput} />
         )
       })
     
     let last = current.length - 1
-    current[last] = <FileInput disabled={this.inp_disable} key={last} index={last} type="add" addInput={this.addInput} />
+    current[last] = <FileInput chk={this.check_inputs} 
+                               disabled={this.inp_disable} 
+                               key={last} 
+                               index={last} 
+                               type="add" 
+                               addInput={this.addInput} />
 
     return current
   }

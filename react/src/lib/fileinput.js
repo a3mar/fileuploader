@@ -5,6 +5,7 @@ export default class FileInput extends React.Component {
     constructor(props) {
         super(props);
         this.state = {"hasError": false, "filled": false}
+        this.testkey = 455
     }
 
     onFileSelect = (e) => {
@@ -13,11 +14,11 @@ export default class FileInput extends React.Component {
       let regex = /^(zip|pdf|jpg|jpeg|tiff|tif|png|doc|docx|rtf|txt|xml|xmlx|ods|odf|xls|xlsx)$/i
 
       if (!fileext.match(regex)) {
-        this.setState({"hasError": true})
-        console.log(`${fileext} NOT matches`)  
+        this.setState({"hasError": true, "filled": true})
       } else {
         this.setState({"hasError": false, "filled": true}) 
       }
+      this.props.chk()
     }
 
     filled = () => this.state.filled
