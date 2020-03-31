@@ -7,6 +7,8 @@
     <a href="<%= file[:link] %>">
       <%= file[:name] %>
     </a> : <%= file[:size].value.round(1) %> MB
+
+    <a href="<%= file[:link] %>"><%= file[:link] %></a>
   </li>
 <% end %>
 <% if comment %>

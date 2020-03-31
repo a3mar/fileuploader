@@ -4,7 +4,7 @@ import '../App.css'
 export default class FileInput extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {"hasError": false}
+        this.state = {"hasError": false, "filled": false}
     }
 
     onFileSelect = (e) => {
@@ -16,13 +16,16 @@ export default class FileInput extends React.Component {
         this.setState({"hasError": true})
         console.log(`${fileext} NOT matches`)  
       } else {
-        this.setState({"hasError": false}) 
+        this.setState({"hasError": false, "filled": true}) 
       }
     }
+
+    filled = () => this.state.filled
 
     render() {
         let index = this.props.index
         let type = this.props.type
+        let disabled = this.props.disabled()
         let hasError = this.state.hasError
         let rowClasses = hasError ? "rightaligned formrow witherror" : "rightaligned formrow"
         return (
@@ -33,6 +36,7 @@ export default class FileInput extends React.Component {
                         type="file"
                         name={`uploaded_file_${index}`}
                         onChange={this.onFileSelect}
+                        disabled={disabled}
                     />
                 </label>
                 <span className="sidebutton" onClick={this.props.addInput} itemID={index}> {type === "add" ? "+" : "-" } </span>

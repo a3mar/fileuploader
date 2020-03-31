@@ -7,6 +7,7 @@ export default class App extends React.Component {
   constructor() {
     super()
     this.state = { 
+      "inprogress": false,
       "finished": false, 
       "result": {
         "files": [
@@ -29,6 +30,7 @@ export default class App extends React.Component {
           className={classes}
           type="submit"
           form="myForm"
+          disabled={this.state.inprogress}
           value={hasError ? "Ошибка загрузки" : message}
         />
 
@@ -36,11 +38,18 @@ export default class App extends React.Component {
     )
   }
 
+  progress = () => {
+    this.setState({
+      "inprogress": true
+    })
+  }
+
   finish = (request) => {
     let result = JSON.parse(request.response)
     result.resetFn = this.reset
 
     this.setState({
+      "inprogress": false,
       "finished": true,
       "result": result
     })
@@ -48,6 +57,7 @@ export default class App extends React.Component {
 
   reset = () => {
     this.setState({
+      "inprogress": false,
       "finished": false,
       "result": {}
     })
@@ -60,15 +70,15 @@ export default class App extends React.Component {
           formRenderer={this.formRenderer}
           formGetter={this.formGetter}
           progressRenderer={this.submitButton}
-          onProgress={(e, request, progress) => { console.log('progress', e, request, progress); }}
-          onLoad={(e, request) => { this.finish(request) }}
+          onProgress={(_e, _request, _progress) => { this.progress() }}
+          onLoad={(_e, request) => { this.finish(request) }}
           onError={(e, request) => { console.log('error', e, request); }}
           onAbort={(e, request) => { console.log('abort', e, request); }}
         />
       </div>
     )
   }
-  formRenderer = (submit) => <MyForm submitFn={submit} divId="myForm" />
+  formRenderer = (submit) => <MyForm disabled={this.state.inprogress} submitFn={submit} divId="myForm" />
   formGetter = () => { return (new FormData(document.getElementById('myForm'))) }
 
   result = (resp) => {
