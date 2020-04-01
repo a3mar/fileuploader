@@ -13,7 +13,6 @@ export default class ResultScreen extends React.Component {
                 <div className="header formrow">
                 <a href='https://amo.md'><img class="logo" src={logo} alt="Logo" ></img></a>
                     <h2>Пересылка завершена:</h2>
-                    <p><span className="bold">Длительность пересылки: </span> { this.props.resp_time } seconds</p>
                     <p><span className="bold">Общий объем: </span> { this.props.full_size } MB</p>
                     <p><span className="bold">Средняя скорость: </span>{ this.props.avg_speed } Mb/s</p>
                 </div><hr /><div className="formrow">
