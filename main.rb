@@ -37,7 +37,8 @@ class FileUploader < Sinatra::Base
     FileUtils.mkdir_p file_path
 
     params.keys.select { |key| key =~ /^uploaded_file/ }.each do |file|
-      filename = Russian.translit(params[file][:filename]).gsub(/ /, '_')
+      bit_name = params[file][:filename].force_encoding('UTF-8')
+      filename = Russian.translit(bit_name).gsub(/ /, '_')
       fileext = filename.split('.').last
       next unless fileext =~ file_regex
 
